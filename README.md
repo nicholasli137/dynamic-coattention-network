@@ -21,6 +21,10 @@ Retrieve json training files from [SQuAD](https://rajpurkar.github.io/SQuAD-expl
 
 ```dataset.py``` contains code to create a dataset and vocab for training network.
 
+```
+python3 dataset.py --command create_dataset --input data/train-v1.1.json --output data/train.bin,data/validation.bin --split 0.2,0.8
+python3 dataset.py --command create_vocab --input data/train-v1.1.json --output data/vocab
+```
 
 Training the network
 -----------------------
