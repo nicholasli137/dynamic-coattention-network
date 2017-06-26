@@ -10,8 +10,9 @@ Requirements
 --------------
 
 - Python 3.5.2
-- TensorFlow r0.11
+- TensorFlow
 - spaCy 1.2.0
+- NLTK
 
 
 Data
