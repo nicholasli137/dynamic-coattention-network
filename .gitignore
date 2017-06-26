@@ -1,12 +1,19 @@
 .DS_Store
 __pycache__
+
+# Data
 data/*.bin
 data/vocab
 data/train-*.json
 data/dev-*.json
+
+# Log files
 log/checkpoint
 log/events.*
 log/*.pbtxt
 log/*.ckpt*
 log/train/*
 log/eval/*
+
+# Jetbrains
+.idea
