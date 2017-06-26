@@ -119,12 +119,13 @@ class Model:
             c_embedding = tf.transpose(c_vector, perm=[1, 0, 2])
             q_vector = tf.map_fn(lambda x: fn(x), self._questions, dtype=tf.float32)
             q_embedding = tf.transpose(q_vector, perm=[1, 0, 2])
-            # shared lstm encoder
-            lstm_enc = tf.contrib.rnn.LSTMCell(hidden_size)
+            # use different LSTM cell for c_embedding and q_embedding
+            c_lstm_enc = tf.contrib.rnn.LSTMCell(hidden_size)
+            q_lstm_enc = tf.contrib.rnn.LSTMCell(hidden_size)
 
         with tf.variable_scope('c_embedding'), tf.device(self._next_device()):
             # compute context embedding
-            c, _ = tf.nn.dynamic_rnn(lstm_enc, c_embedding, dtype=tf.float32)
+            c, _ = tf.nn.dynamic_rnn(c_lstm_enc, c_embedding, dtype=tf.float32)
             # append sentinel
             fn = lambda x: tf.concat(
                 axis=0, values=[x, tf.zeros([1, hidden_size], dtype=tf.float32)])
@@ -132,7 +133,7 @@ class Model:
 
         with tf.variable_scope('q_embedding'), tf.device(self._next_device()):
             # compute question embedding
-            q, _ = tf.nn.dynamic_rnn(lstm_enc, q_embedding, dtype=tf.float32)
+            q, _ = tf.nn.dynamic_rnn(q_lstm_enc, q_embedding, dtype=tf.float32)
             # append sentinel
             fn = lambda x: tf.concat(
                 axis=0, values=[x, tf.zeros([1, hidden_size], dtype=tf.float32)])
